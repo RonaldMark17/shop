@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Store</title>
+    <meta name="description" content="This is the description" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" async></script>
+
+  </head>
+
+  <body>
+    <section class="container content-section">
+      <h2 class="section-header">MUSIC</h2>
+      <div class="shop-items">
+        <div class="shop-item">
+          <span class="shop-item-title">Pink Season</span>
+          <img class="shop-item-image" src="Pink_Season.jpg" />
+          <div class="shop-item-details">
+            <span class="shop-item-price">$10.99</span>
+            <button class="btn btn-primary shop-item-button" type="button">
+              ADD TO CART
+            </button>
+          </div>
+        </div>
+
+        
+        <div class="shop-item">
+          <span class="shop-item-title">Pink Season: The Prophecy</span>
+          <img class="shop-item-image" src="Pink_Season_The_Prophecy.jpg" />
+          <div class="shop-item-details">
+            <span class="shop-item-price">$11.99</span>
+            <button class="btn btn-primary shop-item-button" type="button">
+              ADD TO CART
+            </button>
+          </div>
+        </div>
+        <div class="shop-item">
+          <span class="shop-item-title">In Tounges</span>
+          <img class="shop-item-image" src="In_Tongues_Joji.png" />
+          <div class="shop-item-details">
+            <span class="shop-item-price">$13.99</span>
+            <button class="btn btn-primary shop-item-button" type="button">
+              ADD TO CART
+            </button>
+          </div>
+        </div>
+        <div class="shop-item">
+          <span class="shop-item-title">In Tounges: Deluxe</span>
+          <img class="shop-item-image" src="In_Tongues_Jojideluxe.png" />
+          <div class="shop-item-details">
+            <span class="shop-item-price">$11.99</span>
+            <button class="btn btn-primary shop-item-button" type="button">
+              ADD TO CART
+            </button>
+          </div>
+        </div>
+        <div class="shop-item">
+          <span class="shop-item-title">Ballads 1</span>
+          <img class="shop-item-image" src="ballad1.png" />
+          <div class="shop-item-details">
+            <span class="shop-item-price">$12.99</span>
+            <button class="btn btn-primary shop-item-button" type="button">
+              ADD TO CART
+            </button>
+          </div>
+        </div>
+        <div class="shop-item">
+          <span class="shop-item-title">Nectar</span>
+          <img class="shop-item-image" src="Joji_-_Nectar.png" />
+          <div class="shop-item-details">
+            <span class="shop-item-price">$15.99</span>
+            <button class="btn btn-primary shop-item-button" type="button">
+              ADD TO CART
+            </button>
+          </div>
+        </div>
+        <div class="shop-item">
+          <span class="shop-item-title">Smithereens</span>
+          <img class="shop-item-image" src="smit.png" />
+          <div class="shop-item-details">
+            <span class="shop-item-price">$19.99</span>
+            <button class="btn btn-primary shop-item-button" type="button">
+              ADD TO CART
+            </button>
+          </div>
+        </div>
+
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <section class="container content-section">
+      <h2 class="section-header">MERCH</h2>
+      <div class="shop-items">
+
+        <div class="shop-item">
+          <span class="shop-item-title"
+            >Black SMITHEREENS Print Hoodie <br>
+            + Digital Album</span
+          >
+          <img class="shop-item-image" src="download.png" />
+          <div class="shop-item-details">
+            <span class="shop-item-price">$95.99</span>
+            <button class="btn btn-primary shop-item-button" type="button">
+              ADD TO CART
+            </button>
+          </div>
+        </div>
+
+        <div class="shop-item">
+          <span class="shop-item-title"
+            >Black Silhouette Longsleeve <br />+ Digital Album</span
+          >
+          <img class="shop-item-image" src="download (1).png" />
+          <div class="shop-item-details">
+            <span class="shop-item-price">$70.99</span>
+            <button class="btn btn-primary shop-item-button" type="button">
+              ADD TO CART
+            </button>
+          </div>
+        </div>
+        <div class="shop-item">
+          <span class="shop-item-title"
+            >Black SMITHEREENS Print T-Shirt <br />
+            + Digital Album</span
+          >
+          <img class="shop-item-image" src="download (2).png" />
+          <div class="shop-item-details">
+            <span class="shop-item-price">$50.99</span>
+            <button class="btn btn-primary shop-item-button" type="button">
+              ADD TO CART
+            </button>
+          </div>
+        </div>
+        <div class="shop-item">
+          <span class="shop-item-title"
+            >White SMITHEREENS Cap <br />
+            + Digital Album</span
+          >
+          <img class="shop-item-image" src="download (3).png" />
+          <div class="shop-item-details">
+            <span class="shop-item-price">$50.99</span>
+            <button class="btn btn-primary shop-item-button" type="button">
+              ADD TO CART
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="container content-section">
+      <h2 class="section-header">CART</h2>
+      <div class="cart-row">
+        <span class="cart-item cart-header cart-column">ITEM</span>
+        <span class="cart-price cart-header cart-column">PRICE</span>
+        <span class="cart-quantity cart-header cart-column">QUANTITY</span>
+      </div>
+      <div class="cart-items"></div>
+      <div class="cart-total">
+        <strong class="cart-total-title">Total</strong>
+        <span class="cart-total-price">$0</span>
+      </div>
+      <div class="payment-section">
+        <label for="amount-paid">Amount Paid:</label>
+        <input type="number" id="amount-paid" placeholder="Enter amount" />
+        <button class="btn btn-primary" id="calculate-change">
+          Calculate Change
+        </button>
+        <div id="change-output"></div>
+      </div>
+      <button class="btn btn-primary btn-purchase" type="button">
+        PURCHASE
+      </button>
+    </section>
+  </body>
+</html>
