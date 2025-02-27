@@ -103,7 +103,6 @@ function ready() {
       "$" + total;
   }
 
-
   function removeCartItem(event) {
     // Get the clicked button
     var buttonClicked = event.target;
@@ -112,7 +111,6 @@ function ready() {
     // Update the total price after removing an item
     updateCartTotal();
   }
-
 
   function quantityChanged(event) {
     // Get the input field that triggered the event
@@ -124,13 +122,6 @@ function ready() {
     // Update the total price after quantity change
     updateCartTotal();
   }
-
-
-
-
-
-
-
 
   // Select all quantity input fields
   var quantityInputs = document.getElementsByClassName("cart-quantity-input");
@@ -152,103 +143,100 @@ function ready() {
   document
     .getElementsByClassName("btn-purchase")[0]
     .addEventListener("click", purchaseClicked);
-}
 
-function purchaseClicked() {
-  var cartItems = document.getElementsByClassName("cart-items")[0];
-  var totalPrice = parseFloat(
-    document.querySelector(".cart-total-price").innerText.replace("$", "")
-  );
-  var amountPaid = parseFloat(document.getElementById("amount-paid").value);
-
-  if (!cartItems.hasChildNodes()) {
-    alert("Your cart is empty!");
-    return;
-  }
-
-  if (isNaN(amountPaid) || amountPaid < totalPrice) {
-    alert("Insufficient funds! Please enter a valid amount.");
-    return;
-  }
-
-  alert("Thank you for your purchase");
-
-  while (cartItems.hasChildNodes()) {
-    cartItems.removeChild(cartItems.firstChild);
-  }
-
-  updateCartTotal();
-
-  // Clear the payment section
-  document.getElementById("amount-paid").value = "";
-  document.getElementById("change-output").innerText = "";
-}
-
-document
-  .querySelector(".btn-purchase")
-  .addEventListener("click", purchaseClicked);
-
-
-
-
-document
-  .getElementById("calculate-change") // Selects the button with ID "calculate-change"
-  .addEventListener("click", function () {
-    // Adds a click event listener to the button
-    var cartItems = document.getElementsByClassName("cart-items")[0]; // Gets the first element with class "cart-items"
-
-    // Checks if the cart is empty
-    if (!cartItems.hasChildNodes()) {
-      document.getElementById("change-output").innerText =
-        "Your cart is empty! Add items before calculating change."; // Displays an error message
-      document.getElementById("change-output").style.color = "red"; // Sets text color to red
-      return; // Stops execution
-    }
-
-    // Gets the total cart price, removing the dollar sign and converting it to a float
+  function purchaseClicked() {
+    var cartItems = document.getElementsByClassName("cart-items")[0];
     var totalPrice = parseFloat(
       document.querySelector(".cart-total-price").innerText.replace("$", "")
     );
-
-    // Gets the amount paid from the input field and converts it to a float
     var amountPaid = parseFloat(document.getElementById("amount-paid").value);
 
-    // Checks if the input is a valid number
-    if (isNaN(amountPaid)) {
-      document.getElementById("change-output").innerText =
-        "Please input amount paid first!"; // Displays an error message
-      document.getElementById("change-output").style.color = "red"; // Sets text color to red
-      return; // Stops execution
+    if (!cartItems.hasChildNodes()) {
+      alert("Your cart is empty!");
+      return;
     }
 
-    // Checks if the amount paid is less than the total price
-    if (amountPaid < totalPrice) {
-      document.getElementById("change-output").innerText =
-        "Insufficient amount paid!"; // Displays an error message
-      document.getElementById("change-output").style.color = "red"; // Sets text color to red
-      return; // Stops execution
+    if (isNaN(amountPaid) || amountPaid < totalPrice) {
+      alert("Insufficient funds! Please enter a valid amount.");
+      return;
     }
 
-    // Calculates the change to be given
-    var change = amountPaid - totalPrice;
+    alert("Thank you for your purchase");
 
-    // List of denominations (bills and coins)
-    var denominations = [100, 50, 20, 10, 5, 1, 0.25, 0.1, 0.05, 0.01];
+    while (cartItems.hasChildNodes()) {
+      cartItems.removeChild(cartItems.firstChild);
+    }
 
-    // Initializes the change breakdown message
-    var changeBreakdown = "Change: $" + change.toFixed(2) + "\n";
+    updateCartTotal();
 
-    // Loops through each denomination to determine how many of each to give
-    denominations.forEach((denom) => {
-      if (change >= denom) {
-        // Checks if the change is greater than or equal to the current denomination
-        var count = Math.floor(change / denom); // Determines how many of the current denomination fit into the change
-        change -= count * denom; // Subtracts the used amount from change
-        change = Math.round(change * 100) / 100; // Fixes floating-point precision issues
-        changeBreakdown += `${count} x $${denom.toFixed(2)}\n`; // Adds the denomination count to the breakdown message
+    // Clear the payment section
+    document.getElementById("amount-paid").value = "";
+    document.getElementById("change-output").innerText = "";
+  }
+
+  document
+    .querySelector(".btn-purchase")
+    .addEventListener("click", purchaseClicked);
+
+  document
+    .getElementById("calculate-change") // Selects the button with ID "calculate-change"
+    .addEventListener("click", function () {
+      // Adds a click event listener to the button
+      var cartItems = document.getElementsByClassName("cart-items")[0]; // Gets the first element with class "cart-items"
+
+      // Checks if the cart is empty
+      if (!cartItems.hasChildNodes()) {
+        document.getElementById("change-output").innerText =
+          "Your cart is empty! Add items before calculating change."; // Displays an error message
+        document.getElementById("change-output").style.color = "red"; // Sets text color to red
+        return; // Stops execution
       }
-    });
 
-    // Displays the change breakdown on the webpage
-    document.getElementById("change-output").innerText = changeBreakdown;
-  });
+      // Gets the total cart price, removing the dollar sign and converting it to a float
+      var totalPrice = parseFloat(
+        document.querySelector(".cart-total-price").innerText.replace("$", "")
+      );
+
+      // Gets the amount paid from the input field and converts it to a float
+      var amountPaid = parseFloat(document.getElementById("amount-paid").value);
+
+      // Checks if the input is a valid number
+      if (isNaN(amountPaid)) {
+        document.getElementById("change-output").innerText =
+          "Please input amount paid first!"; // Displays an error message
+        document.getElementById("change-output").style.color = "red"; // Sets text color to red
+        return; // Stops execution
+      }
+
+      // Checks if the amount paid is less than the total price
+      if (amountPaid < totalPrice) {
+        document.getElementById("change-output").innerText =
+          "Insufficient amount paid!"; // Displays an error message
+        document.getElementById("change-output").style.color = "red"; // Sets text color to red
+        return; // Stops execution
+      }
+
+      // Calculates the change to be given
+      var change = amountPaid - totalPrice;
+
+      // List of denominations (bills and coins)
+      var denominations = [100, 50, 20, 10, 5, 1, 0.25, 0.1, 0.05, 0.01];
+
+      // Initializes the change breakdown message
+      var changeBreakdown = "Change: $" + change.toFixed(2) + "\n";
+
+      // Loops through each denomination to determine how many of each to give
+      denominations.forEach((denom) => {
+        if (change >= denom) {
+          // Checks if the change is greater than or equal to the current denomination
+          var count = Math.floor(change / denom); // Determines how many of the current denomination fit into the change
+          change -= count * denom; // Subtracts the used amount from change
+          change = Math.round(change * 100) / 100; // Fixes floating-point precision issues
+          changeBreakdown += `${count} x $${denom.toFixed(2)}\n`; // Adds the denomination count to the breakdown message
+        }
+      });
+
+      // Displays the change breakdown on the webpage
+      document.getElementById("change-output").innerText = changeBreakdown;
+    });
+}
