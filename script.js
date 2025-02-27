@@ -16,6 +16,122 @@ function ready() {
     button.addEventListener("click", removeCartItem);
   }
 
+  function addToCartClicked(event) {
+    var button = event.target; // Gets the button that was clicked
+    var shopItem = button.closest(".shop-item"); // Finds the closest parent element with class 'shop-item'
+
+    // Extracts the item details: title, price, and image source
+    var title = shopItem.querySelector(".shop-item-title").innerText; // Gets the item's title
+    var price = shopItem.querySelector(".shop-item-price").innerText; // Gets the item's price
+    var imageSrc = shopItem.querySelector(".shop-item-image").src; // Gets the item's image source
+
+    // Calls a function to add the item to the cart
+    addItemToCart(title, price, imageSrc);
+
+    // Updates the total price of items in the cart
+    updateCartTotal();
+  }
+
+  function addItemToCart(title, price, imageSrc) {
+    var cartRow = document.createElement("div"); // Creates a new div element for the cart row
+    cartRow.classList.add("cart-row"); // Adds the "cart-row" class to the new div
+
+    var cartItems = document.getElementsByClassName("cart-items")[0]; // Selects the container that holds cart items
+    var cartItemNames = cartItems.getElementsByClassName("cart-item-title"); // Gets all item titles already in the cart
+
+    // Loops through cart items to check if the item is already in the cart
+    for (var i = 0; i < cartItemNames.length; i++) {
+      if (
+        cartItemNames[i].innerText.replace(/\s+/g, " ").trim() === // Cleans up spaces and trims the text
+        title.replace(/\s+/g, " ").trim() // Compares the cleaned title to avoid duplicates
+      ) {
+        alert("This item is already added to the cart"); // Alerts the user if the item is already in the cart
+        return; // Stops execution to prevent duplicate items
+      }
+    }
+
+    // HTML structure for the cart row, including image, title, price, quantity input, and remove button
+    var cartRowContents = `
+      <div class="cart-item cart-column">
+          <img class="cart-item-image" src="${imageSrc}" width="100" height="100">
+          <span class="cart-item-title">${title}</span>
+      </div>
+      <span class="cart-price cart-column">${price}</span>
+      <div class="cart-quantity cart-column">
+          <input class="cart-quantity-input" type="number" value="1">
+          <button class="btn btn-danger" type="button">REMOVE</button>
+      </div>
+  `;
+
+    cartRow.innerHTML = cartRowContents; // Inserts the HTML content into the new cart row
+    cartItems.append(cartRow); // Appends the new cart row to the cart items container
+
+    // Adds event listener to the "REMOVE" button to remove the item when clicked
+    cartRow
+      .getElementsByClassName("btn-danger")[0]
+      .addEventListener("click", removeCartItem);
+
+    // Adds event listener to the quantity input field to update total when changed
+    cartRow
+      .getElementsByClassName("cart-quantity-input")[0]
+      .addEventListener("change", quantityChanged);
+  }
+
+  function updateCartTotal() {
+    // Select the cart container
+    var cartItemContainer = document.getElementsByClassName("cart-items")[0];
+    // Get all cart rows
+    var cartRows = cartItemContainer.getElementsByClassName("cart-row");
+    var total = 0;
+    // Loop through all cart rows to calculate the total price
+    for (var i = 0; i < cartRows.length; i++) {
+      var cartRow = cartRows[i];
+      var priceElement = cartRow.getElementsByClassName("cart-price")[0];
+      var quantityElement = cartRow.getElementsByClassName(
+        "cart-quantity-input"
+      )[0];
+      // Extract price and quantity values
+      var price = parseFloat(priceElement.innerText.replace("$", ""));
+      var quantity = quantityElement.value;
+      // Calculate total price
+      total = total + price * quantity;
+    }
+    // Round the total price to two decimal places
+    total = Math.round(total * 100) / 100;
+    // Update the total price in the cart
+    document.getElementsByClassName("cart-total-price")[0].innerText =
+      "$" + total;
+  }
+
+
+  function removeCartItem(event) {
+    // Get the clicked button
+    var buttonClicked = event.target;
+    // Remove the parent row (cart item)
+    buttonClicked.parentElement.parentElement.remove();
+    // Update the total price after removing an item
+    updateCartTotal();
+  }
+
+
+  function quantityChanged(event) {
+    // Get the input field that triggered the event
+    var input = event.target;
+    // Ensure the quantity is a valid number greater than 0
+    if (isNaN(input.value) || input.value <= 0) {
+      input.value = 1;
+    }
+    // Update the total price after quantity change
+    updateCartTotal();
+  }
+
+
+
+
+
+
+
+
   // Select all quantity input fields
   var quantityInputs = document.getElementsByClassName("cart-quantity-input");
   for (var i = 0; i < quantityInputs.length; i++) {
@@ -37,19 +153,6 @@ function ready() {
     .getElementsByClassName("btn-purchase")[0]
     .addEventListener("click", purchaseClicked);
 }
-
-/*function purchaseClicked() {
-  // Show alert when purchase is made
-  alert("Thank you for your purchase");
-  // Select cart items container
-  var cartItems = document.getElementsByClassName("cart-items")[0];
-  // Remove all child elements (clear the cart)
-  while (cartItems.hasChildNodes()) {
-    cartItems.removeChild(cartItems.firstChild);
-  }
-  // Update the total price after clearing the cart
-  updateCartTotal();
-}*/
 
 function purchaseClicked() {
   var cartItems = document.getElementsByClassName("cart-items")[0];
@@ -85,155 +188,67 @@ document
   .querySelector(".btn-purchase")
   .addEventListener("click", purchaseClicked);
 
-function removeCartItem(event) {
-  // Get the clicked button
-  var buttonClicked = event.target;
-  // Remove the parent row (cart item)
-  buttonClicked.parentElement.parentElement.remove();
-  // Update the total price after removing an item
-  updateCartTotal();
-}
 
-function quantityChanged(event) {
-  // Get the input field that triggered the event
-  var input = event.target;
-  // Ensure the quantity is a valid number greater than 0
-  if (isNaN(input.value) || input.value <= 0) {
-    input.value = 1;
-  }
-  // Update the total price after quantity change
-  updateCartTotal();
-}
 
-/*function addToCartClicked(event) {
-  // Get the clicked button
-  var button = event.target;
-  // Get the parent shop item container
-  var shopItem = button.parentElement.parentElement;
-  // Get item title, price, and image source
-  var title = shopItem.getElementsByClassName("shop-item-title")[0].innerText;
-  var price = shopItem.getElementsByClassName("shop-item-price")[0].innerText;
-  var imageSrc = shopItem.getElementsByClassName("shop-item-image")[0].src;
-  // Add item to the cart
-  addItemToCart(title, price, imageSrc);
-  // Update the total price after adding an item
-  updateCartTotal();
-}*/
-
-function addToCartClicked(event) {
-  var button = event.target;
-  var shopItem = button.closest(".shop-item"); // Finds the closest parent with class 'shop-item'
-
-  var title = shopItem.querySelector(".shop-item-title").innerText;
-  var price = shopItem.querySelector(".shop-item-price").innerText;
-  var imageSrc = shopItem.querySelector(".shop-item-image").src;
-
-  addItemToCart(title, price, imageSrc);
-  updateCartTotal();
-}
-
-function addItemToCart(title, price, imageSrc) {
-  var cartRow = document.createElement("div");
-  cartRow.classList.add("cart-row");
-  var cartItems = document.getElementsByClassName("cart-items")[0];
-  var cartItemNames = cartItems.getElementsByClassName("cart-item-title");
-  for (var i = 0; i < cartItemNames.length; i++) {
-    if (
-      cartItemNames[i].innerText.replace(/\s+/g, " ").trim() ===
-      title.replace(/\s+/g, " ").trim()
-    ) {
-      alert("This item is already added to the cart");
-      return;
-    }
-  }
-
-  // Create HTML structure for the cart row
-  var cartRowContents = `
-    <div class="cart-item cart-column">
-        <img class="cart-item-image" src="${imageSrc}" width="100" height="100">
-        <span class="cart-item-title">${title}</span>
-    </div>
-    <span class="cart-price cart-column">${price}</span>
-    <div class="cart-quantity cart-column">
-        <input class="cart-quantity-input" type="number" value="1">
-        <button class="btn btn-danger" type="button">REMOVE</button>
-    </div>
-`;
-
-  // Insert the cart row into the cart items container
-  cartRow.innerHTML = cartRowContents;
-  cartItems.append(cartRow);
-
-  // Add event listeners to new remove button and quantity input
-  cartRow
-    .getElementsByClassName("btn-danger")[0]
-    .addEventListener("click", removeCartItem);
-  cartRow
-    .getElementsByClassName("cart-quantity-input")[0]
-    .addEventListener("change", quantityChanged);
-}
-
-function updateCartTotal() {
-  // Select the cart container
-  var cartItemContainer = document.getElementsByClassName("cart-items")[0];
-  // Get all cart rows
-  var cartRows = cartItemContainer.getElementsByClassName("cart-row");
-  var total = 0;
-  // Loop through all cart rows to calculate the total price
-  for (var i = 0; i < cartRows.length; i++) {
-    var cartRow = cartRows[i];
-    var priceElement = cartRow.getElementsByClassName("cart-price")[0];
-    var quantityElement = cartRow.getElementsByClassName(
-      "cart-quantity-input"
-    )[0];
-    // Extract price and quantity values
-    var price = parseFloat(priceElement.innerText.replace("$", ""));
-    var quantity = quantityElement.value;
-    // Calculate total price
-    total = total + price * quantity;
-  }
-  // Round the total price to two decimal places
-  total = Math.round(total * 100) / 100;
-  // Update the total price in the cart
-  document.getElementsByClassName("cart-total-price")[0].innerText =
-    "$" + total;
-}
 
 document
-  .getElementById("calculate-change")
+  .getElementById("calculate-change") // Selects the button with ID "calculate-change"
   .addEventListener("click", function () {
-    var cartItems = document.getElementsByClassName("cart-items")[0];
+    // Adds a click event listener to the button
+    var cartItems = document.getElementsByClassName("cart-items")[0]; // Gets the first element with class "cart-items"
+
+    // Checks if the cart is empty
     if (!cartItems.hasChildNodes()) {
       document.getElementById("change-output").innerText =
-        "Your cart is empty! Add items before calculating change.";
-      document.getElementById("change-output").style.color = "red";
-      return;
+        "Your cart is empty! Add items before calculating change."; // Displays an error message
+      document.getElementById("change-output").style.color = "red"; // Sets text color to red
+      return; // Stops execution
     }
 
+    // Gets the total cart price, removing the dollar sign and converting it to a float
     var totalPrice = parseFloat(
       document.querySelector(".cart-total-price").innerText.replace("$", "")
     );
+
+    // Gets the amount paid from the input field and converts it to a float
     var amountPaid = parseFloat(document.getElementById("amount-paid").value);
 
-    if (isNaN(amountPaid) || amountPaid < totalPrice) {
+    // Checks if the input is a valid number
+    if (isNaN(amountPaid)) {
       document.getElementById("change-output").innerText =
-        "Insufficient amount paid!";
-      document.getElementById("change-output").style.color = "red";
-      return;
+        "Please input amount paid first!"; // Displays an error message
+      document.getElementById("change-output").style.color = "red"; // Sets text color to red
+      return; // Stops execution
     }
 
+    // Checks if the amount paid is less than the total price
+    if (amountPaid < totalPrice) {
+      document.getElementById("change-output").innerText =
+        "Insufficient amount paid!"; // Displays an error message
+      document.getElementById("change-output").style.color = "red"; // Sets text color to red
+      return; // Stops execution
+    }
+
+    // Calculates the change to be given
     var change = amountPaid - totalPrice;
+
+    // List of denominations (bills and coins)
     var denominations = [100, 50, 20, 10, 5, 1, 0.25, 0.1, 0.05, 0.01];
+
+    // Initializes the change breakdown message
     var changeBreakdown = "Change: $" + change.toFixed(2) + "\n";
 
+    // Loops through each denomination to determine how many of each to give
     denominations.forEach((denom) => {
       if (change >= denom) {
-        var count = Math.floor(change / denom);
-        change -= count * denom;
-        change = Math.round(change * 100) / 100; // Fix floating-point issues
-        changeBreakdown += `${count} x $${denom.toFixed(2)}\n`;
+        // Checks if the change is greater than or equal to the current denomination
+        var count = Math.floor(change / denom); // Determines how many of the current denomination fit into the change
+        change -= count * denom; // Subtracts the used amount from change
+        change = Math.round(change * 100) / 100; // Fixes floating-point precision issues
+        changeBreakdown += `${count} x $${denom.toFixed(2)}\n`; // Adds the denomination count to the breakdown message
       }
     });
 
+    // Displays the change breakdown on the webpage
     document.getElementById("change-output").innerText = changeBreakdown;
   });
