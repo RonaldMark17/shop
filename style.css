@@ -361,3 +361,43 @@ html, body {
     color: black;
     text-align: center;
 }
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .nav ul {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .nav li {
+        padding: 10px;
+    }
+
+    .band-name {
+        font-size: 8vw;
+    }
+
+    .shop-items {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+
+    .cart-row {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .band-name {
+        font-size: 10vw;
+    }
+
+    .shop-items {
+        grid-template-columns: 1fr;
+    }
+
+    .btn {
+        font-size: 1.2em;
+        padding: 1em;
+    }
+}
