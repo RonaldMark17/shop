@@ -120,8 +120,6 @@ function quantityChanged(event) {
   updateCartTotal();
 }*/
 
-
-
 function addToCartClicked(event) {
   var button = event.target;
   var shopItem = button.closest(".shop-item"); // Finds the closest parent with class 'shop-item'
@@ -134,16 +132,16 @@ function addToCartClicked(event) {
   updateCartTotal();
 }
 
-
-
-
 function addItemToCart(title, price, imageSrc) {
   var cartRow = document.createElement("div");
   cartRow.classList.add("cart-row");
   var cartItems = document.getElementsByClassName("cart-items")[0];
   var cartItemNames = cartItems.getElementsByClassName("cart-item-title");
   for (var i = 0; i < cartItemNames.length; i++) {
-    if (cartItemNames[i].innerText.replace(/\s+/g, ' ').trim() === title.replace(/\s+/g, ' ').trim()) {
+    if (
+      cartItemNames[i].innerText.replace(/\s+/g, " ").trim() ===
+      title.replace(/\s+/g, " ").trim()
+    ) {
       alert("This item is already added to the cart");
       return;
     }
@@ -204,6 +202,14 @@ function updateCartTotal() {
 document
   .getElementById("calculate-change")
   .addEventListener("click", function () {
+    var cartItems = document.getElementsByClassName("cart-items")[0];
+    if (!cartItems.hasChildNodes()) {
+      document.getElementById("change-output").innerText =
+        "Your cart is empty! Add items before calculating change.";
+      document.getElementById("change-output").style.color = "red";
+      return;
+    }
+
     var totalPrice = parseFloat(
       document.querySelector(".cart-total-price").innerText.replace("$", "")
     );
@@ -212,6 +218,7 @@ document
     if (isNaN(amountPaid) || amountPaid < totalPrice) {
       document.getElementById("change-output").innerText =
         "Insufficient amount paid!";
+      document.getElementById("change-output").style.color = "red";
       return;
     }
 
@@ -230,6 +237,3 @@ document
 
     document.getElementById("change-output").innerText = changeBreakdown;
   });
-
-
-  
