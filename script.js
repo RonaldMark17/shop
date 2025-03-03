@@ -73,7 +73,7 @@ function updateCartTotal() {
       "cart-quantity-input"
     )[0];
     // Extract price and quantity values
-    var price = parseFloat(priceElement.innerText.replace("$", ""));
+    var price = parseFloat(priceElement.innerText.replace("₱", ""));
     var quantity = quantityElement.value;
     // Calculate total price
     total = total + price * quantity;
@@ -82,7 +82,7 @@ function updateCartTotal() {
   total = Math.round(total * 100) / 100;
   // Update the total price in the cart
   document.getElementsByClassName("cart-total-price")[0].innerText =
-    "$" + total;
+    "₱" + total;
 }
 
 // Select all elements with class 'btn-danger' (remove buttons)
@@ -228,4 +228,5 @@ document
 
     // Displays the change breakdown on the webpage
     document.getElementById("change-output").innerText = changeBreakdown;
+    document.getElementById("change-output").style.color = "black";
   });
