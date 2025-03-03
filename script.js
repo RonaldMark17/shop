@@ -184,11 +184,12 @@ document
 
     // Gets the total cart price, removing the dollar sign and converting it to a float
     var totalPrice = parseFloat(
-      document.querySelector(".cart-total-price").innerText.replace("$", "")
+      document.querySelector(".cart-total-price").innerText.replace("₱", "")
     );
 
     // Gets the amount paid from the input field and converts it to a float
-    var amountPaid = parseFloat(document.getElementById("amount-paid").value);
+    var amountPaid = parseInt(document.getElementById("amount-paid").value);
+    document.getElementById("amount-paid").style.color = "black";
 
     // Checks if the input is a valid number
     if (isNaN(amountPaid)) {
@@ -210,10 +211,10 @@ document
     var change = amountPaid - totalPrice;
 
     // List of denominations (bills and coins)
-    var denominations = [100, 50, 20, 10, 5, 1, 0.25, 0.1, 0.05, 0.01];
+    var denominations = [1000, 500, 100, 50, 20, 10, 5, 1,];
 
     // Initializes the change breakdown message
-    var changeBreakdown = "Change: $" + change.toFixed(2) + "\n";
+    var changeBreakdown = "Change: ₱" + change.toFixed(2) + "\n";
 
     // Loops through each denomination to determine how many of each to give
     denominations.forEach((denom) => {
@@ -222,7 +223,7 @@ document
         var count = Math.floor(change / denom); // Determines how many of the current denomination fit into the change
         change -= count * denom; // Subtracts the used amount from change
         change = Math.round(change * 100) / 100; // Fixes floating-point precision issues
-        changeBreakdown += `${count} x $${denom.toFixed(2)}\n`; // Adds the denomination count to the breakdown message
+        changeBreakdown += `${count} x ₱${denom.toFixed(2)}\n`; // Adds the denomination count to the breakdown message
       }
     });
 
