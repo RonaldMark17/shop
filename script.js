@@ -2,6 +2,8 @@ function addToCartClicked(event) {
   var button = event.target; // Gets the button that was clicked
   var shopItem = button.closest(".shop-item"); // Finds the closest parent element with class 'shop-item'
 
+  
+
   // Extracts the item details: title, price, and image source
   var title = shopItem.querySelector(".shop-item-title").innerText; // Gets the item's title
   var price = shopItem.querySelector(".shop-item-price").innerText; // Gets the item's price
